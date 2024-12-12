@@ -1,13 +1,15 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../Js_File/AuthContext";
 
 
 const Navbar = () => {
-
+    const { user, logOut} = useContext(AuthContext)
     const links = <>
-    <li><NavLink to={'/'}>Home</NavLink></li>
-    <li><NavLink to={'/register'}>Register</NavLink></li>
-    <li><NavLink to={'/login'}>Login</NavLink></li>
-    <li><NavLink to={'/hero'}>Hero</NavLink></li>
+        <li><NavLink to={'/'}>Home</NavLink></li>
+        <li><NavLink to={'/register'}>Register</NavLink></li>
+        <li><NavLink to={'/login'}>Login</NavLink></li>
+        <li><NavLink to={'/hero'}>Hero</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100">
@@ -33,15 +35,33 @@ const Navbar = () => {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <a className="btn btn-ghost text-xl">Real Estate</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                {links}
+                    {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn">Button</a>
+            <div className="navbar-end gap-3">
+                {
+                    user ?
+                        <div className="avatar tooltip tooltip-left"  data-tip={user?.displayName}>
+                            <div className="w-14 rounded-full" >
+                                <img src={user?.photoURL || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
+                            </div>
+                        </div>
+                        :
+                        ''
+                }
+                {
+                    user ?
+                        <div>
+                            <img src="" alt="" />
+                            <a onClick={logOut} className="btn">LogOut</a>
+                        </div>
+                        :
+                        <NavLink to={'/login'} className={'btn'}>LogIn</NavLink>
+                }
             </div>
         </div>
     );

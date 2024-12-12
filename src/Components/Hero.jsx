@@ -11,11 +11,15 @@ import 'swiper/css/scrollbar';
 // React Leaflet
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'; // Import Leaflet CSS
+import { Helmet } from 'react-helmet';
 
 const Hero = () => {
     
     return (
         <div>
+             < Helmet >
+                <title>Hero</title>
+            </Helmet >
             <Swiper className='h-[60vh]'
                 // install Swiper modules
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -24,7 +28,6 @@ const Hero = () => {
                 navigation
                 pagination={{ clickable: true }}
                 scrollbar={{ draggable: true }}
-                onSlideChange={() => console.log('slide change')}
             >
                 <SwiperSlide><img src="https://i.ibb.co.com/c6YrXyg/austin-ramsey-Ah-M0y-Bu-W1-I-unsplash.jpg" alt="" /></SwiperSlide>
                 <SwiperSlide><img src="https://i.ibb.co.com/SQK1kzm/daniil-silantev-MWGa-Ml-ETWg-Q-unsplash.jpg" alt="" /></SwiperSlide>

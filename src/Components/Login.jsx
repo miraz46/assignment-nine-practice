@@ -1,17 +1,53 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Js_File/AuthContext";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location?.state;
+    const { setUser, setError, googleSingIn, signInUser, githubSingIn } = useContext(AuthContext)
     const handleLogin = e => {
         e.preventDefault();
-        const name = e.target.name.value;
         const email = e.target.email.value;
-        const photoUrl = e.target.photoUrl.value;
         const password = e.target.password.value;
-        console.log(name, email, photoUrl, password)
+        console.log(email, password)
+
+        signInUser(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                setUser(user)
+                toast.success('LogIn Complete')
+                navigate(from || '/')
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                setError(errorMessage);
+            });
     }
+    const handleSocialMediaLogin = (socialMedia) => {
+        socialMedia()
+            .then((result) => {
+                const user = result.user;
+                setUser(user);
+                toast.success('LogIn Complete')
+                navigate(from || '/')
+
+            }).catch((error) => {
+                const errorMessage = error.message;
+                setError(errorMessage)
+            });
+    }
+
+
     return (
         <div className="hero bg-base-200 min-h-screen">
+            < Helmet >
+                <title>Login</title>
+            </Helmet >
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
@@ -44,7 +80,10 @@ const Login = () => {
                         </div>
                         <h2 className="mt-6 ">Already have an account? <NavLink className={'underline underline-offset-4 text-sky-500'} to={'/register'}>Register</NavLink> </h2>
                     </form>
-
+                    <div className="flex gap-4 mb-3">
+                        <button onClick={() => handleSocialMediaLogin(googleSingIn)} className="btn btn-outline w-16  border-sky-500">Google</button>
+                        <button onClick={() => handleSocialMediaLogin(githubSingIn)} className="btn btn-outline w-16  border-green-500">Github</button>
+                    </div>
                 </div>
             </div>
         </div>

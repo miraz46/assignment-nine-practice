@@ -1,19 +1,48 @@
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../Js_File/AuthContext";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
-
+    const navigate = useNavigate()
+    const { setUser, setError, createUser, updateUser } = useContext(AuthContext);
     const handleRegister = e => {
         e.preventDefault();
         const name = e.target.name.value;
         const email = e.target.email.value;
         const photoUrl = e.target.photoUrl.value;
         const password = e.target.password.value;
-        console.log(name, email, photoUrl, password)
+        console.log(name, email, photoUrl, password);
+        if (!/^(?=.*[A-Z])(?=.*[a-z]).{6,}$/.test(password)) {
+          return toast.error("Must have an Uppercase letter,a Lowercase letter and Length must be at least 6");
+        }
+
+        createUser(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                setUser(user)
+                updateUser(name, photoUrl)
+                    .then(() => {
+                        navigate('/')
+                    }).catch((error) => {
+                        setError(error)
+                    });
+                    toast.success('Registration Complete')
+            })
+            .catch((error) => {
+                const errorMessage = error.message;
+                setError(errorMessage);
+            });
     }
 
     return (
+
         <div className="hero bg-base-200 min-h-screen">
+            < Helmet >
+                <title>Registration</title>
+            </Helmet >
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Register now!</h1>

@@ -12,6 +12,8 @@ import Register from './Components/Register';
 import AuthProvider from './Components/AuthProvider';
 import ErrorPage from './Components/ErrorPage';
 import Hero from './Components/Hero';
+import PrivateRoute from './Components/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/hero",
-        element: <Hero></Hero>,
+        element: <PrivateRoute><Hero></Hero></PrivateRoute>,
       },
     ]
   },
@@ -45,6 +47,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
     <RouterProvider router={router} />
+    <ToastContainer></ToastContainer>
     </AuthProvider>
   </StrictMode>,
 )
