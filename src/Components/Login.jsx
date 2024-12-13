@@ -9,7 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location?.state;
-    const { setUser, setError, googleSingIn, signInUser, githubSingIn } = useContext(AuthContext)
+    const { setError, googleSingIn, signInUser, githubSingIn } = useContext(AuthContext)
     const handleLogin = e => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -17,9 +17,7 @@ const Login = () => {
         console.log(email, password)
 
         signInUser(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setUser(user)
+            .then(() => {
                 toast.success('LogIn Complete')
                 navigate(from || '/')
             })
@@ -30,9 +28,7 @@ const Login = () => {
     }
     const handleSocialMediaLogin = (socialMedia) => {
         socialMedia()
-            .then((result) => {
-                const user = result.user;
-                setUser(user);
+            .then(() => {
                 toast.success('LogIn Complete')
                 navigate(from || '/')
 

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
     const navigate = useNavigate()
-    const { setUser, setError, createUser, updateUser } = useContext(AuthContext);
+    const { setError, createUser, updateUser } = useContext(AuthContext);
     const handleRegister = e => {
         e.preventDefault();
         const name = e.target.name.value;
@@ -20,9 +20,7 @@ const Register = () => {
         }
 
         createUser(email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setUser(user)
+            .then(() => {
                 updateUser(name, photoUrl)
                     .then(() => {
                         navigate('/')
