@@ -38,11 +38,7 @@ const AuthProvider = ({ children }) => {
     }
 
     const logOut = () => {
-        signOut(auth).then(() => {
-            setUser(null)
-        }).catch((error) => {
-            setError(error)
-        });
+        return signOut(auth)
     }
 
     useEffect(() => {

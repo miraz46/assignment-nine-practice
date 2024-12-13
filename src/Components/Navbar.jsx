@@ -4,13 +4,21 @@ import { AuthContext } from "../Js_File/AuthContext";
 
 
 const Navbar = () => {
-    const { user, logOut} = useContext(AuthContext)
+    const { user, logOut, setUser, setError } = useContext(AuthContext)
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/register'}>Register</NavLink></li>
         <li><NavLink to={'/login'}>Login</NavLink></li>
         <li><NavLink to={'/hero'}>Hero</NavLink></li>
     </>
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                setUser(null)
+            }).catch((error) => {
+                setError(error)
+            });
+    }
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -45,7 +53,7 @@ const Navbar = () => {
             <div className="navbar-end gap-3">
                 {
                     user ?
-                        <div className="avatar tooltip tooltip-left"  data-tip={user?.displayName}>
+                        <div className="avatar tooltip tooltip-left" data-tip={user?.displayName}>
                             <div className="w-14 rounded-full" >
                                 <img src={user?.photoURL || "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"} />
                             </div>
@@ -57,7 +65,7 @@ const Navbar = () => {
                     user ?
                         <div>
                             <img src="" alt="" />
-                            <a onClick={logOut} className="btn">LogOut</a>
+                            <a onClick={handleLogOut} className="btn">LogOut</a>
                         </div>
                         :
                         <NavLink to={'/login'} className={'btn'}>LogIn</NavLink>
