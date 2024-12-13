@@ -10,7 +10,6 @@ const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [photo, setPhoto] = useState(null)
-    console.log(user)
 
 
     const updateUser = (name, photoUrl) => {
@@ -51,6 +50,7 @@ const AuthProvider = ({ children }) => {
             if (user) {
                 setUser(user)
                 setLoading(false)
+                console.log(user)
             }
         });
         return () => unSubscribe()
