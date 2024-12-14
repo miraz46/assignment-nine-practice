@@ -4,7 +4,7 @@ import { AuthContext } from "../Js_File/AuthContext";
 
 
 const Navbar = () => {
-    const { user, logOut, setUser, setError } = useContext(AuthContext)
+    const { user, logOut, setUser, setError, setLoading} = useContext(AuthContext)
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/register'}>Register</NavLink></li>
@@ -15,6 +15,7 @@ const Navbar = () => {
         logOut()
             .then(() => {
                 setUser(null)
+                setLoading(false);
             }).catch((error) => {
                 setError(error)
             });

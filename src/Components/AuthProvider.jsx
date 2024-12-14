@@ -9,12 +9,10 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [photo, setPhoto] = useState(null)
 
 
     const updateUser = (name, photoUrl) => {
         setLoading(true);
-        setPhoto(photoUrl)
         return updateProfile(auth.currentUser, {
             displayName: name,
             photoURL: photoUrl,
@@ -38,22 +36,23 @@ const AuthProvider = ({ children }) => {
     }
 
     const logOut = () => {
+        setLoading(true);
         return signOut(auth)
     }
 
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUser(user)
-                setLoading(false)
-                console.log(user)
+                setUser(user || null); // Ensure `user` is null if no user
+                setLoading(false);
+                console.log(user);
             }
         });
         return () => unSubscribe()
     }, [])
 
     const authInfo = {
-        user, setUser, error, setError, googleSingIn, createUser, signInUser, githubSingIn, logOut, loading, updateUser, photo,
+        user, setUser, error, setError, googleSingIn, createUser, signInUser, githubSingIn, logOut, loading, updateUser
     }
 
     return (

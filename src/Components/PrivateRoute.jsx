@@ -5,18 +5,17 @@ import { Navigate, useLocation } from 'react-router-dom';
 const PrivateRoute = ({ children }) => {
     const location = useLocation();
     const { user, loading } = useContext(AuthContext);
-    console.log(loading)
-    if (!user) {
-        return <Navigate to={'/login'} state={location?.pathname || '/'}></Navigate>
-    }
+
     if (loading) {
-        return <span className="loading loading-bars loading-lg"></span>
+        return <div className='flex h-[90vh] justify-center items-center'><span className="loading loading-bars loading-lg"></span></div>
     }
-    return (
-        <div>
-            {children}
-        </div>
-    );
+    if (user) {
+        return children
+    }
+
+    return <Navigate to={'/login'} state={location?.pathname || '/'}></Navigate>;
 };
 
 export default PrivateRoute;
+
+// state={location?.pathname || '/'}

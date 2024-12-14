@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    console.log(location)
     const from = location?.state;
     const { setError, googleSingIn, signInUser, githubSingIn } = useContext(AuthContext)
     const handleLogin = e => {
